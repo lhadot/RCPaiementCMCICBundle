@@ -1,6 +1,8 @@
 <?php
 namespace RC\PaiementCMCICBundle\Controller;
 
+use RC\PaiementCMCICBundle\Services\SampleLogicTpeService;
+use RC\PaiementCMCICBundle\Services\TpeService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,7 +70,9 @@ class SamplePaiementController extends Controller
      * @return Response
      */
     public function retourServeurAction(Request $request) {
+        /** @var TpeService $servicePaiement */
         $servicePaiement = $this->container->get('rc.paiementcmcic_tpe');
+        /** @var SampleLogicTpeService $serviceLogicPaiement */
         $serviceLogicPaiement = $this->container->get('rc.paiementcmcic_logic_tpe');
 
         if ($request->isMethod('POST')) {

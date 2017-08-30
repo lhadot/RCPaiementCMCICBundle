@@ -49,6 +49,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('secret')
                     ->children()
                         ->scalarNode('CLE')->end()
+                        ->scalarNode('ALGO')->end()
                     ->end()
                 ->end()
 

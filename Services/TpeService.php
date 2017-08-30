@@ -4,6 +4,7 @@ namespace RC\PaiementCMCICBundle\Services;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use RC\PaiementCMCICBundle\Entity\Paiement;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TpeService
 {
@@ -25,6 +26,7 @@ class TpeService
     private $langue;
     private $devise;
     private $cle;
+    private $algo;
     private $urlPaiement;
     private $serveur;
 
@@ -43,7 +45,6 @@ class TpeService
     {
         $this->container = $container;
         $this->router = $this->container->get('router');
-        $kernel = $this->container->get('kernel');
 
         // Config du bundle
         $this->version = $this->container->getParameter('rc_paiement_cmcic.serveur')['VERSION'];
@@ -59,29 +60,30 @@ class TpeService
 
         // URL prod ou preprod en fonction de l'environnement (variable retour)
         $configServeur = $this->container->getParameter('rc_paiement_cmcic.serveur');
-        if ($kernel->getEnvironment() != "prod") {
+        if ($configServeur['serveur'] == "preprod") {
             $this->serveur = $configServeur['SERVEUR_PREPROD'];
         } else {
             $this->serveur = $configServeur['SERVEUR_PROD'];
         }
 
         $this->cle = $this->container->getParameter('rc_paiement_cmcic.secret')['CLE'];
+        $this->algo = $this->container->getParameter('rc_paiement_cmcic.secret')['ALGO'];
 
         // URL de retour /paiement/{status} success | "" | error
         $this->urlRetour = $this->container->get('router')->generate(
             'paiement-retour',
             array('status' => ''),
-            true
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
         $this->urlOk = $this->container->get('router')->generate(
             'paiement-retour',
             array('status' => 'success'),
-            true
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
         $this->urlKo = $this->container->get('router')->generate(
             'paiement-retour',
             array('status' => 'error'),
-            true
+            UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
 
@@ -124,7 +126,7 @@ class TpeService
 
     private function computeHmac($sData)
     {
-        return strtolower(hash_hmac("sha1", $sData, $this->getUsableKey()));
+        return strtolower(hash_hmac($this->algo, $sData, $this->getUsableKey()));
     }
 
     /**
