@@ -59,7 +59,7 @@ class TpeService
         $this->urlPaiement = $configUrl['URL_PAIEMENT'];
 
         // URL prod ou preprod en fonction de l'environnement (variable retour)
-        $configServeur = $this->container->getParameter('rc_paiement_cmcic_serveur');
+        $configServeur = $this->container->getParameter('rc_paiement_cmcic.serveur');
         if ($configServeur['SERVEUR'] == "preprod") {
             $this->serveur = $configServeur['SERVEUR_PREPROD'];
         } else {
