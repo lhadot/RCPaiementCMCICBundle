@@ -216,7 +216,7 @@ class TpeService
         $filesystem = new Filesystem();
         $rootDir = $this->container->get('kernel')->getRootDir();
 
-        $path = sprintf('%s/../data/%s', $rootDir, date('Y\/m\/d\/'));
+        $path = sprintf('%s/../var/logs/monetico/%s', $rootDir, date('Y\/m\/d\/'));
         $filesystem->mkdir($path);
         $content = sprintf('Signature verification : %s%s', $verified ? 'OK' : 'KO', PHP_EOL);
         foreach ($parameters as $key => $value) {
