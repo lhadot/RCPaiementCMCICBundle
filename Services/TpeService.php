@@ -12,7 +12,7 @@ class TpeService
     protected $router;
 
     public static $hmacStr = "CtlHmac%s%s";
-    public static $receipt = "version=2\ncdr=%s";
+    public static $receipt = "version=2\ncdr=%s\n";
 
     private static $HMAC = "V1.04.sha1.php--[CtlHmac%s%s]-%s";
     private static $macok = "0";
