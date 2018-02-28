@@ -16,7 +16,7 @@ class TpeService
 
     private static $HMAC = "V1.04.sha1.php--[CtlHmac%s%s]-%s";
     private static $macok = "0";
-    private static $macNotOk = "1\n";
+    private static $macNotOk = "1";
     private static $fields = "%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*";
     private static $cgi1Fiels = "%s*%s*%s%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s*%s";
 
@@ -257,7 +257,7 @@ class TpeService
         if ($verified) {
             return self::$macok;
         } else {
-            return self::$macNotOk.$cgiRetour;
+            return self::$macNotOk;
         }
     }
 
