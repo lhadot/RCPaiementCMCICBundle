@@ -145,7 +145,7 @@ class TpeService
             $paiement->getReference(),
             $paiement->getTexteLibre(),
             $this->version,
-            $this->langue,
+            !empty($paiement->getLgue()) ? $paiement->getLgue() : $this->langue,
             $this->codeSociete,
             $paiement->getMail(),
             $paiement->getNbrEch(),
